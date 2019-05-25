@@ -24,7 +24,7 @@
   "license": "BSD",
   "dependencies": {
     "homebridge-base-platform": "^1.1.2",
-    "overkiz-api": "^1.0.3"
+    "overkiz-api": "^1.0.4"
   },
   "devDependencies": {
     "@types/node": "^11.13.10",
