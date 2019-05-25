@@ -1,0 +1,33 @@
+{
+  "name": "homebridge-cozytouch-platform",
+  "version": "1.0.0",
+  "description": "Homebridge Cozytouch platform",
+  "main": "dist/index.js",
+  "types": "dist/index.d.js",
+  "keywords": [
+    "homebridge-plugin",
+    "cozytouch",
+    "thermor",
+    "sauter",
+    "atlantic",
+    "switch",
+    "thermostat"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/bbriatte/homebridge-cozytouch-platform.git"
+  },
+  "engines": {
+    "homebridge": ">=0.4.48"
+  },
+  "author": "bbriatte",
+  "license": "BSD",
+  "dependencies": {
+    "homebridge-base-platform": "^1.1.2",
+    "overkiz-api": "^1.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "^11.13.10",
+    "homebridge": "^0.4.48"
+  }
+}
