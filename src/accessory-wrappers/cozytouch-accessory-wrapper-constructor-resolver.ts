@@ -8,6 +8,8 @@ export type CozytouchAccessoryWrapperConstructorEntries = {[widget: string]: Coz
 
 export class CozytouchAccessoryWrapperConstructorResolver {
 
+    static WILDCARD_WIDGET = '*';
+
     private static mapping: {[uiClass: string]: CozytouchAccessoryWrapperConstructorEntries} = {
         'WaterHeatingSystem': {
             'DomesticHotWaterProduction': DomesticHotWaterProductionAccessoryWrapper
@@ -17,7 +19,11 @@ export class CozytouchAccessoryWrapperConstructorResolver {
     public static resolve(device: APIDevice): CozytouchAccessoryWrapperConstructor | undefined {
         const constructorEntries = CozytouchAccessoryWrapperConstructorResolver.mapping[device.uiClass];
         if(constructorEntries !== undefined) {
-            return constructorEntries[device.widget];
+            const constructor = constructorEntries[device.widget];
+            if(constructor === undefined) {
+                return constructorEntries[this.WILDCARD_WIDGET]
+            }
+            return constructor;
         }
         return undefined;
     }
