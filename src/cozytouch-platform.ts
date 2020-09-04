@@ -1,18 +1,23 @@
 import {HomebridgePlatform, PlatformSettings} from 'homebridge-base-platform';
-import {PlatformConfig} from './platform-config';
 import {API, APIDevice} from 'overkiz-api';
 import {
     CozytouchAccessoryWrapperConstructorResolver,
     CozytouchAccessoryWrapperConstructor,
     CozytouchAccessoryWrapper
 } from './accessory-wrappers';
+import {CozytouchPlatformConfig} from "./cozytouch-platform-config";
+import {Logging} from "homebridge";
 
 export enum CozytouchPlatformInfo {
     plugin = 'homebridge-cozytouch-platform',
     name = 'CozytouchPlatform'
 }
 
-export class CozytouchPlatform extends HomebridgePlatform<PlatformConfig, APIDevice, CozytouchAccessoryWrapper> {
+export class CozytouchPlatform extends HomebridgePlatform<CozytouchPlatformConfig, APIDevice, CozytouchAccessoryWrapper> {
+
+    public constructor(logger: Logging, config: CozytouchPlatformConfig, api: API) {
+        super(logger, config, api);
+    }
     protected getAccessoryWrapperConstructorForDevice(device: APIDevice): CozytouchAccessoryWrapperConstructor | undefined {
         return CozytouchAccessoryWrapperConstructorResolver.resolve(device);
     }
@@ -21,7 +26,7 @@ export class CozytouchPlatform extends HomebridgePlatform<PlatformConfig, APIDev
         return {
             name: CozytouchPlatformInfo.name,
             plugin: CozytouchPlatformInfo.plugin,
-            deviceKeys: {
+            deviceKeyMapping: {
                 id: 'oid',
                 name: 'name'
             }
@@ -36,5 +41,9 @@ export class CozytouchPlatform extends HomebridgePlatform<PlatformConfig, APIDev
             polling: this.config.polling
         });
         return api.getDevices();
+    }
+
+    protected getDefaultPlatformConfig(): CozytouchPlatformConfig | undefined {
+        return undefined; // default config not possible
     }
 }

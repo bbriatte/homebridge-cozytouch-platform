@@ -1,5 +1,6 @@
 import {WaterheatingAccessoryWrapper} from './waterheating-accessory-wrapper';
 import {Command} from 'overkiz-api';
+import {Service} from 'homebridge';
 
 export enum DomesticHotWaterProductionState {
     maximalTemperature = 'core:MaximalTemperatureManualModeState',
@@ -11,7 +12,7 @@ export enum DomesticHotWaterProductionState {
 
 export class DomesticHotWaterProductionAccessoryWrapper extends WaterheatingAccessoryWrapper {
 
-    protected initThermostatService(): any {
+    protected initThermostatService(): Service {
         const thermostatService = super.initThermostatService();
         const maxValue = this.device.getStateValue(DomesticHotWaterProductionState.maximalTemperature) || 65;
         this.targetTemperatureCharacteristic.setProps({

@@ -1,9 +1,10 @@
 import {APIDevice} from 'overkiz-api';
 import {DomesticHotWaterProductionAccessoryWrapper} from './waterheating-accessory-wrappers';
 import {CozytouchAccessoryWrapper} from './cozytouch-accessory-wrapper';
-import {Context} from 'homebridge-base-platform';
+import {HomebridgeContextProps} from 'homebridge-base-platform';
+import {PlatformAccessory} from "homebridge";
 
-export type CozytouchAccessoryWrapperConstructor = { new (context: Context, accessory: any, device: APIDevice): CozytouchAccessoryWrapper };
+export type CozytouchAccessoryWrapperConstructor = { new (context: HomebridgeContextProps, accessory: PlatformAccessory, device: APIDevice): CozytouchAccessoryWrapper };
 export type CozytouchAccessoryWrapperConstructorEntries = {[widget: string]: CozytouchAccessoryWrapperConstructor};
 
 export class CozytouchAccessoryWrapperConstructorResolver {

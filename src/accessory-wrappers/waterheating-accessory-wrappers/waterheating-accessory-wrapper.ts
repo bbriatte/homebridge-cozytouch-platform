@@ -1,5 +1,6 @@
 import {APIDevice} from 'overkiz-api';
-import {callbackify, Context} from 'homebridge-base-platform';
+import {callbackify, HomebridgeContextProps} from 'homebridge-base-platform';
+import {Service, Characteristic, PlatformAccessory} from 'homebridge';
 import {CozytouchAccessoryWrapper} from '../cozytouch-accessory-wrapper';
 
 export enum WaterHeatingState {
@@ -8,13 +9,13 @@ export enum WaterHeatingState {
 
 export abstract class WaterheatingAccessoryWrapper extends CozytouchAccessoryWrapper {
 
-    protected readonly thermostatService: any;
-    protected currentHeatingCharacteristic: any;
-    protected targetHeatingCharacteristic: any;
-    protected currentTemperatureCharacteristic: any;
-    protected targetTemperatureCharacteristic: any;
+    protected readonly thermostatService: Service;
+    protected currentHeatingCharacteristic: Characteristic;
+    protected targetHeatingCharacteristic: Characteristic;
+    protected currentTemperatureCharacteristic: Characteristic;
+    protected targetTemperatureCharacteristic: Characteristic;
 
-    constructor(context: Context, accessory: any, device: APIDevice) {
+    constructor(context: HomebridgeContextProps, accessory: PlatformAccessory, device: APIDevice) {
         super(context, accessory, device);
         this.thermostatService = this.initThermostatService();
     }

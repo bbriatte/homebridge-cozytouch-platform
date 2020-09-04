@@ -1,5 +1,6 @@
-import {Context, HomebridgeAccessoryWrapper} from 'homebridge-base-platform';
+import {HomebridgeContextProps, HomebridgeAccessoryWrapper} from 'homebridge-base-platform';
 import {APIDevice} from 'overkiz-api';
+import {PlatformAccessory, Service} from "homebridge";
 
 export enum CozytouchState {
     model = 'core:ModelState',
@@ -9,15 +10,15 @@ export enum CozytouchState {
 
 export class CozytouchAccessoryWrapper extends HomebridgeAccessoryWrapper<APIDevice> {
 
-    protected readonly informationService: any;
+    protected readonly informationService: Service;
 
-    constructor(context: Context, accessory: any, device: APIDevice) {
+    constructor(context: HomebridgeContextProps, accessory: PlatformAccessory, device: APIDevice) {
         super(context, accessory, device);
         this.informationService = this.initInformationService();
         this.log(`Found device [${this.getDisplayName()}]`);
     }
 
-    protected initInformationService(): any {
+    protected initInformationService(): Service {
         const informationService = this.accessory.getService(this.Service.AccessoryInformation);
         informationService
             .setCharacteristic(this.Characteristic.Name, this.getDisplayName())
