@@ -14,17 +14,17 @@ export class DomesticHotWaterProductionAccessoryWrapper extends WaterheatingAcce
 
     protected initThermostatService(): Service {
         const thermostatService = super.initThermostatService();
-        const maxValue = this.device.getStateValue(DomesticHotWaterProductionState.maximalTemperature) || 65;
+        const maxValue = this.object.getStateValue(DomesticHotWaterProductionState.maximalTemperature) || 65;
         this.targetTemperatureCharacteristic.setProps({
             minValue: 0,
             maxValue: maxValue,
             minStep: maxValue
         });
         const targetHeatingValues = [];
-        if(this.device.getStateEntry(DomesticHotWaterProductionState.absenceMode) !== undefined) {
+        if(this.object.getStateEntry(DomesticHotWaterProductionState.absenceMode) !== undefined) {
             targetHeatingValues.push(this.Characteristic.TargetHeatingCoolingState.OFF); // enabled OFF mode
         }
-        if(this.device.getStateEntry(DomesticHotWaterProductionState.boostMode) !== undefined) {
+        if(this.object.getStateEntry(DomesticHotWaterProductionState.boostMode) !== undefined) {
             targetHeatingValues.push(this.Characteristic.TargetHeatingCoolingState.HEAT); // enabled HEAT mode
         }
         targetHeatingValues.push(this.Characteristic.TargetHeatingCoolingState.AUTO); // enabled AUTO mode
@@ -33,32 +33,32 @@ export class DomesticHotWaterProductionAccessoryWrapper extends WaterheatingAcce
     }
 
     async getCurrentHeatingState(): Promise<number> {
-        await this.device.refreshStates();
-        if(this.device.getStateValue(DomesticHotWaterProductionState.heatingStatus) !== 'off'
-            || this.device.getStateValue(DomesticHotWaterProductionState.boostMode) === 'on') {
+        await this.object.refreshStates();
+        if(this.object.getStateValue(DomesticHotWaterProductionState.heatingStatus) !== 'off'
+            || this.object.getStateValue(DomesticHotWaterProductionState.boostMode) === 'on') {
             return this.Characteristic.CurrentHeatingCoolingState.HEAT;
         }
         return this.Characteristic.CurrentHeatingCoolingState.OFF;
     }
 
     async getCurrentTemperature(): Promise<number> {
-        await this.device.refreshStates();
-        return this.device.getStateValue(DomesticHotWaterProductionState.middleWaterTemperature);
+        await this.object.refreshStates();
+        return this.object.getStateValue(DomesticHotWaterProductionState.middleWaterTemperature);
     }
 
     async getTargetHeatingState(): Promise<number> {
-        await this.device.refreshStates();
-        if(this.device.getStateValue(DomesticHotWaterProductionState.absenceMode) === 'on') {
+        await this.object.refreshStates();
+        if(this.object.getStateValue(DomesticHotWaterProductionState.absenceMode) === 'on') {
             return this.Characteristic.TargetHeatingCoolingState.OFF;
-        } else if(this.device.getStateValue(DomesticHotWaterProductionState.boostMode) === 'on') {
+        } else if(this.object.getStateValue(DomesticHotWaterProductionState.boostMode) === 'on') {
             return this.Characteristic.TargetHeatingCoolingState.HEAT;
         }
         return this.Characteristic.TargetHeatingCoolingState.AUTO;
     }
 
     async getTargetTemperature(): Promise<number> {
-        await this.device.refreshStates();
-        if(this.device.getStateValue(DomesticHotWaterProductionState.absenceMode) === 'on') {
+        await this.object.refreshStates();
+        if(this.object.getStateValue(DomesticHotWaterProductionState.absenceMode) === 'on') {
             return 0;
         }
         return this.targetTemperatureCharacteristic.props.maxValue;
@@ -83,7 +83,7 @@ export class DomesticHotWaterProductionAccessoryWrapper extends WaterheatingAcce
         } else {
             this.targetTemperatureCharacteristic.updateValue(this.targetTemperatureCharacteristic.props.maxValue);
         }
-        return this.device.exec(...commands);
+        return this.object.exec(...commands);
     }
 
     async setTargetTemperature(temperature: number): Promise<boolean> {
@@ -94,7 +94,7 @@ export class DomesticHotWaterProductionAccessoryWrapper extends WaterheatingAcce
             this.currentHeatingCharacteristic.updateValue(this.Characteristic.CurrentHeatingCoolingState.HEAT);
             this.targetHeatingCharacteristic.updateValue(this.Characteristic.TargetHeatingCoolingState.AUTO);
         }
-        return this.device.exec({
+        return this.object.exec({
             name: 'setAbsenceMode',
             parameters: [
                 temperature === 0 ? 'on' : 'off'

@@ -1,7 +1,7 @@
-import {APIDevice} from 'overkiz-api';
 import {callbackify, HomebridgeContextProps} from 'homebridge-base-platform';
 import {Service, Characteristic, PlatformAccessory} from 'homebridge';
 import {CozytouchAccessoryWrapper} from '../cozytouch-accessory-wrapper';
+import {CozytouchDevice} from "../../cozytouch-device";
 
 export enum WaterHeatingState {
     softwareVersion = 'core:DHWPSoftwareVersionState',
@@ -15,7 +15,7 @@ export abstract class WaterheatingAccessoryWrapper extends CozytouchAccessoryWra
     protected currentTemperatureCharacteristic: Characteristic;
     protected targetTemperatureCharacteristic: Characteristic;
 
-    constructor(context: HomebridgeContextProps, accessory: PlatformAccessory, device: APIDevice) {
+    constructor(context: HomebridgeContextProps, accessory: PlatformAccessory, device: CozytouchDevice) {
         super(context, accessory, device);
         this.thermostatService = this.initThermostatService();
     }
@@ -42,7 +42,7 @@ export abstract class WaterheatingAccessoryWrapper extends CozytouchAccessoryWra
     }
 
     protected getSoftwareVersion(): string | undefined {
-        return this.device.getStateValue(WaterHeatingState.softwareVersion);
+        return this.object.getStateValue(WaterHeatingState.softwareVersion);
     }
 
     public abstract async getCurrentHeatingState(): Promise<number>

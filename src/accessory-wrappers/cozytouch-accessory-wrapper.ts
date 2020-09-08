@@ -1,6 +1,6 @@
 import {HomebridgeContextProps, HomebridgeAccessoryWrapper} from 'homebridge-base-platform';
-import {APIDevice} from 'overkiz-api';
 import {PlatformAccessory, Service} from "homebridge";
+import {CozytouchDevice} from "../cozytouch-device";
 
 export enum CozytouchState {
     model = 'core:ModelState',
@@ -8,11 +8,15 @@ export enum CozytouchState {
     manufacturer = 'core:ManufacturerNameState'
 }
 
-export class CozytouchAccessoryWrapper extends HomebridgeAccessoryWrapper<APIDevice> {
+export class CozytouchAccessoryWrapper extends HomebridgeAccessoryWrapper<CozytouchDevice> {
 
     protected readonly informationService: Service;
 
-    constructor(context: HomebridgeContextProps, accessory: PlatformAccessory, device: APIDevice) {
+    public get object() {
+        return this.device.object;
+    }
+
+    constructor(context: HomebridgeContextProps, accessory: PlatformAccessory, device: CozytouchDevice) {
         super(context, accessory, device);
         this.informationService = this.initInformationService();
         this.log(`Found device [${this.getDisplayName()}]`);
@@ -43,12 +47,12 @@ export class CozytouchAccessoryWrapper extends HomebridgeAccessoryWrapper<APIDev
     }
 
     protected getModel(): string {
-        const model = this.device.getStateValue(CozytouchState.model);
-        return model !== undefined ? model : this.device.model;
+        const model = this.object.getStateValue(CozytouchState.model);
+        return model !== undefined ? model : this.object.model;
     }
 
     protected getSerial(): string | undefined {
-        const res = this.device.URL.split('/');
+        const res = this.object.URL.split('/');
         if(res.length > 0) {
             return res[res.length - 1];
         }
@@ -56,7 +60,7 @@ export class CozytouchAccessoryWrapper extends HomebridgeAccessoryWrapper<APIDev
     }
 
     protected getHardwareVersion(): string | undefined {
-        return this.device.getStateValue(CozytouchState.version);
+        return this.object.getStateValue(CozytouchState.version);
     }
 
     protected getSoftwareVersion(): string | undefined {
@@ -64,6 +68,6 @@ export class CozytouchAccessoryWrapper extends HomebridgeAccessoryWrapper<APIDev
     }
 
     protected getManufacturer(): string | undefined {
-        return this.device.getStateValue(CozytouchState.manufacturer);
+        return this.object.getStateValue(CozytouchState.manufacturer);
     }
 }

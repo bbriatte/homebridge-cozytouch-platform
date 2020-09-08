@@ -1,7 +1,7 @@
 import {PollingInfo} from 'overkiz-api';
-import {PlatformConfig} from 'homebridge';
+import {BasePlatformConfig} from "homebridge-base-platform";
 
-export interface CozytouchPlatformConfig extends PlatformConfig {
+export interface CozytouchPlatformConfig extends BasePlatformConfig {
     readonly user: string,
     readonly password: string;
     readonly polling: PollingInfo;
