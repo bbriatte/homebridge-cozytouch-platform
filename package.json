@@ -1,6 +1,6 @@
 {
   "name": "homebridge-cozytouch-platform",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Homebridge Cozytouch platform",
   "main": "dist/index.js",
   "types": "dist/index.d.js",
@@ -23,7 +23,7 @@
   "author": "bbriatte",
   "license": "BSD",
   "dependencies": {
-    "homebridge-base-platform": "^1.4.1",
+    "homebridge-base-platform": "^1.4.2",
     "overkiz-api": "^1.1.1"
   },
   "devDependencies": {
