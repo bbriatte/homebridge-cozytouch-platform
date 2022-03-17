@@ -6,7 +6,7 @@ import {
 } from './accessory-wrappers';
 import {CozytouchPlatformConfig} from "./cozytouch-platform-config";
 import {API, Logging} from "homebridge";
-import {API as OverkizAPI} from "overkiz-api";
+import {API as OverkizAPI, CozytouchLoginHandler} from "overkiz-api";
 import {CozytouchDevice, deviceFromConfig} from "./cozytouch-device";
 
 export enum CozytouchPlatformInfo {
@@ -33,9 +33,8 @@ export class CozytouchPlatform extends HomebridgePlatform<CozytouchPlatformConfi
     protected async searchDevices(): Promise<CozytouchDevice[]> {
         const api = new OverkizAPI({
             host: 'ha110-1.overkiz.com',
-            user: this.config.user,
-            password: this.config.password,
-            polling: this.config.polling
+            polling: this.config.polling,
+            platformLoginHandler: new CozytouchLoginHandler(this.config.user, this.config.password)
         });
         const globalConfig: BaseGlobalConfig = this.config.global || {};
         const objects = await api.getObjects();

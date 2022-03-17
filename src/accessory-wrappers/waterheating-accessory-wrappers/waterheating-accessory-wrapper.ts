@@ -45,15 +45,15 @@ export abstract class WaterheatingAccessoryWrapper extends CozytouchAccessoryWra
         return this.object.getStateValue(WaterHeatingState.softwareVersion);
     }
 
-    public abstract async getCurrentHeatingState(): Promise<number>
+    public abstract getCurrentHeatingState(): Promise<number>
 
-    public abstract async getTargetHeatingState(): Promise<number>
+    public abstract getTargetHeatingState(): Promise<number>
 
-    public abstract async setTargetHeatingState(state: number): Promise<boolean>
+    public abstract setTargetHeatingState(state: number): Promise<boolean>
 
-    public abstract async getCurrentTemperature(): Promise<number>;
+    public abstract getCurrentTemperature(): Promise<number>;
 
-    public abstract async getTargetTemperature(): Promise<number>;
+    public abstract getTargetTemperature(): Promise<number>;
 
-    public abstract async setTargetTemperature(temperature: number): Promise<boolean>;
+    public abstract setTargetTemperature(temperature: number): Promise<boolean>;
 }
